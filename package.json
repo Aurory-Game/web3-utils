@@ -1,0 +1,31 @@
+{
+  "name": "@aurory/web3-utils",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aurory-Game/web3-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Aurory-Game/web3-utils/issues"
+  },
+  "scripts": {
+    "sp": "ts-node -r dotenv/config $1",
+    "build": "rm -rf ./lib && tsc -p tsconfig.build.json",
+    "lint:fix": "eslint --fix --ext .ts,.json . && tsc --pretty",
+    "lint": "eslint . --ext .ts,.tsx,.json && tsc --pretty"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "@metaplex-foundation/js": "0.14.0",
+    "@solana/spl-token": "^0.3.6",
+    "@solana/web3.js": "^1.63.1",
+    "@supercharge/promise-pool": "^2.3.2",
+    "dotenv": "^16.0.2"
+  }
+}

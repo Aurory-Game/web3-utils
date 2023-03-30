@@ -1,0 +1,6 @@
+.env*
+out
+deps
+node_modules
+lib
+yarn-error.log
