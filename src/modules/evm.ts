@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 
-const MaxUint256: BigNumber = /*#__PURE__*/ BigNumber.from(
+export const MaxUint256: BigNumber = /*#__PURE__*/ BigNumber.from(
   "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 );
 
