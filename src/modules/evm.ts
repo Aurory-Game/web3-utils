@@ -35,10 +35,11 @@ export async function getSignedData(
   encodedItemId: number,
   tokenAddress: string,
   amount: BigNumber | number,
-  operationType: SignedDataOperationType
+  operationType: SignedDataOperationType,
+  finalAmount: BigNumber | number
 ) {
   const msg = ethers.utils.defaultAbiCoder.encode(
-    ["address", "uint256", "uint256", "address", "uint256", "uint8"],
+    ["address", "uint256", "uint256", "address", "uint256", "uint8", "uint256"],
     [
       messageSender,
       userNonce,
@@ -46,6 +47,7 @@ export async function getSignedData(
       tokenAddress,
       amount,
       operationType,
+      finalAmount,
     ]
   );
   const msgHash = ethers.utils.keccak256(msg);
