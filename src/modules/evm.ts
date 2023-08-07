@@ -5,27 +5,40 @@ export const MaxUint256: BigNumber = /*#__PURE__*/ BigNumber.from(
   "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 );
 
-export function encodeItemId(itemId: string): string {
-  itemId = itemId.replace("i-", "");
-  let hexArray = Array.from(itemId).map((char:any) => char.charCodeAt(0).toString(16));
-  let hexString = hexArray.join('');
-  return hexString.padStart(64, '0');
+export function encodeItemId(itemId: string): BigNumber {
+  const res = [];
+  for (let i = 0; i < itemId.length; i++) {
+    res.push(String(itemId.charCodeAt(i)).padStart(3, "0"));
+  }
+  const result = BigNumber.from(res.join(""));
+  if (result.gt(MaxUint256)) throw new Error("Item id is too big");
+  return result;
 }
 
 export function decodeItemId(itemId: string): string {
-   itemId = itemId.replace(/^0+/, '');
-   const originalString = Array.from({ length: itemId.length / 2 })
-       .map((_, idx) => {
-           const hexPair = itemId.substr(idx * 2, 2);
-           return String.fromCharCode(parseInt(hexPair, 16));
-       })
-       .join('');
-   return "i-" + originalString;
+  if(itemId.length === 64){
+    return decodeHexItemId(itemId)
+  }
+  const res = [];
+  for (let i = 0; i < itemId.length; i++) {
+    res.push(String.fromCharCode(Number(itemId.slice(i * 3, i * 3 + 3))));
+  }
+  return res.join("").replace(/\u0000/g, "");
 }
 
 export enum SignedDataOperationType {
   DEPOSIT = 0,
   WITHDRAW = 1,
+}
+
+export function decodeHexItemId(encodedItemId: string){
+  const unpaddedItemId = encodedItemId.replace(/^0+/, '');
+  let originalString = '';
+  for (let i = 0; i < unpaddedItemId.length; i += 2) {
+      let hexPair = unpaddedItemId.substring(i, i + 2);
+      originalString += String.fromCharCode(parseInt(hexPair, 16));
+  }
+  return `i-${originalString}`
 }
 
 export async function getSignedData(
