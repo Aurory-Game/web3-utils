@@ -16,6 +16,9 @@ export function encodeItemId(itemId: string): BigNumber {
 }
 
 export function decodeItemId(itemId: string): string {
+  if(itemId.length === 64){
+    return decodeHexItemId(itemId)
+  }
   const res = [];
   for (let i = 0; i < itemId.length; i++) {
     res.push(String.fromCharCode(Number(itemId.slice(i * 3, i * 3 + 3))));
@@ -26,6 +29,16 @@ export function decodeItemId(itemId: string): string {
 export enum SignedDataOperationType {
   DEPOSIT = 0,
   WITHDRAW = 1,
+}
+
+export function decodeHexItemId(encodedItemId: string){
+  const unpaddedItemId = encodedItemId.replace(/^0+/, '');
+  let originalString = '';
+  for (let i = 0; i < unpaddedItemId.length; i += 2) {
+      let hexPair = unpaddedItemId.substring(i, i + 2);
+      originalString += String.fromCharCode(parseInt(hexPair, 16));
+  }
+  return `i-${originalString}`
 }
 
 export async function getSignedData(
