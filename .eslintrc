@@ -23,6 +23,7 @@
   "rules": {
     "prettier/prettier": ["error"],
     "no-debugger": 0,
-    "no-console": 0
+    "no-console": 0,
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

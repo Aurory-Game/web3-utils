@@ -7,20 +7,32 @@ async function run() {
     const mwp = new MultiWalletProvider();
     const mcp = new MultiConnectionProvider();
 
-    const connection = mcp.get('aurory-prod');
+    const connection = mcp.get("aurory-prod");
 
-    const updateAuthority = mwp.get('aury7LJUae7a92PBo35vVbP61GX8VbyxFKausvUtBrt');
-    const mintAddress = new PublicKey('GGKMRcs5dFJTnreK1663CSWybYRuABmapb5M2ndavASJ')
-    const collectionAddress = new PublicKey('7BQdHnBKERaCYCnwLbbSoYHQZxcq7zLenYERDp94o18z')
+    const updateAuthority = mwp.get(
+      "aury7LJUae7a92PBo35vVbP61GX8VbyxFKausvUtBrt",
+    );
+    const mintAddress = new PublicKey(
+      "GGKMRcs5dFJTnreK1663CSWybYRuABmapb5M2ndavASJ",
+    );
+    const collectionAddress = new PublicKey(
+      "7BQdHnBKERaCYCnwLbbSoYHQZxcq7zLenYERDp94o18z",
+    );
 
-    const no = new NFTsOperator(connection)
-    const r = await no.setAndVerifyCollection(mintAddress, collectionAddress, updateAuthority, updateAuthority, updateAuthority, false);
+    const no = new NFTsOperator(connection);
+    const r = await no.setAndVerifyCollection(
+      mintAddress,
+      collectionAddress,
+      updateAuthority,
+      updateAuthority,
+      updateAuthority,
+      false,
+    );
 
-    console.log(r)
-  }
-  catch (e) {
-    console.error(e)
+    console.log(r);
+  } catch (e) {
+    console.error(e);
   }
 }
 
-run()
+run();

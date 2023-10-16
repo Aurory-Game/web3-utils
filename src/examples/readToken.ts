@@ -1,5 +1,5 @@
 import { Metaplex } from "@metaplex-foundation/js";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import { MultiConnectionProvider } from "../modules/connection";
 
 const run = async () => {

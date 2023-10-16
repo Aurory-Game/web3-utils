@@ -1,9 +1,5 @@
-import {
-  findMetadataPda,
-  keypairIdentity,
-  Metaplex,
-} from "@metaplex-foundation/js";
-import { Connection, PublicKey, Transaction } from "@solana/web3.js";
+import { findMetadataPda } from "@metaplex-foundation/js";
+import { PublicKey, Transaction } from "@solana/web3.js";
 import { MultiWalletProvider } from "../modules/wallet";
 import { MultiConnectionProvider } from "../modules/connection";
 import { createUpdateMetadataAccountInstruction } from "@metaplex-foundation/mpl-token-metadata";
@@ -42,8 +38,8 @@ async function run() {
             updateAuthority: authority.publicKey,
             primarySaleHappened: null,
           },
-        }
-      )
+        },
+      ),
     );
     const signature = await connection.sendTransaction(tx, [authority]);
     console.log(signature);

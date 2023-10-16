@@ -14,14 +14,14 @@ async function run() {
     const mcp = new MultiConnectionProvider();
     const connection = mcp.get("aurory-prod");
     const updateAuthority = mwp.get(
-      "NFTsPae8pUuvKHiUHpXfZaQwwbiVPw6dPCWpwfvrwR6"
+      "NFTsPae8pUuvKHiUHpXfZaQwwbiVPw6dPCWpwfvrwR6",
     );
     const metaplex = new Metaplex(connection);
     metaplex.use(keypairIdentity(updateAuthority));
 
     const name = "Quantum Egg";
     const keyBase = encodeURIComponent(
-      name.toLowerCase().trim().replace(/\s/g, "-")
+      name.toLowerCase().trim().replace(/\s/g, "-"),
     );
     const uri = `https://assets.cdn.aurory.io/eggs/${keyBase}/metadata.json`;
 
@@ -47,7 +47,7 @@ async function run() {
               authority: isAuthority ? updateAuthority : undefined,
             };
             return creator;
-          }
+          },
         ),
         isMutable: true,
       })

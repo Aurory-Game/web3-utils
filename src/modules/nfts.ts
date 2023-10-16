@@ -20,7 +20,7 @@ export class NFTsOperator {
     nftAuthority: Keypair,
     collectionAuthority?: Keypair,
     feePayer?: Keypair,
-    skipPreflight: boolean = true
+    skipPreflight: boolean = true,
   ): Promise<string> {
     const metadataAccount = findMetadataPda(nftAddress);
     const collectionMetadataAccount = findMetadataPda(collectionAddress);
@@ -44,12 +44,12 @@ export class NFTsOperator {
         collectionMint: collectionAddress,
         collection: collectionMetadataAccount,
         collectionMasterEditionAccount: collectionMasterEdition,
-      })
+      }),
     );
     return await this._co.sendTransaction(
       tx,
       [payer, nftAuthority, collectionAuth],
-      { skipPreflight }
+      { skipPreflight },
     );
   }
 
@@ -59,7 +59,7 @@ export class NFTsOperator {
     nftAuthority: Keypair,
     collectionAuthority?: Keypair,
     feePayer?: Keypair,
-    skipPreflight: boolean = true
+    skipPreflight: boolean = true,
   ): Promise<string> {
     const metadataAccount = findMetadataPda(nftAddress);
     const collectionMetadataAccount = findMetadataPda(collectionAddress);
@@ -81,12 +81,12 @@ export class NFTsOperator {
         collectionMint: collectionAddress,
         collection: collectionMetadataAccount,
         collectionMasterEditionAccount: collectionMasterEdition,
-      })
+      }),
     );
     return await this._co.sendTransaction(
       tx,
       [payer, nftAuthority, collectionAuth],
-      { skipPreflight }
+      { skipPreflight },
     );
   }
 }

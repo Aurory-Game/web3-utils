@@ -1,5 +1,4 @@
-import { keypairIdentity, Metaplex } from "@metaplex-foundation/js";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import { MultiWalletProvider } from "../modules/wallet";
 import { MultiConnectionProvider } from "../modules/connection";
 import { mintTo, getOrCreateAssociatedTokenAccount } from "@solana/spl-token";
@@ -15,10 +14,10 @@ async function run() {
       connection,
       authority,
       mint,
-      dest
+      dest,
     );
     console.log(
-      await mintTo(connection, authority, mint, ta.address, authority, 9)
+      await mintTo(connection, authority, mint, ta.address, authority, 9),
     );
   } catch (e) {
     console.error(e);
