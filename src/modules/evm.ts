@@ -74,3 +74,52 @@ export async function getSignedData(
   };
   return sd;
 }
+
+export async function getSignedDataV2(
+  owner: ethers.Wallet,
+  messageSender: string,
+  userNonce: number,
+  encodedItemIds: number[],
+  tokenAddress: string,
+  amounts: (ethers.BigNumber | number)[],
+  operationType: number,
+  finalAmounts: (ethers.BigNumber | number)[]
+) {
+  // Ensure amounts, encodedItemIds, and finalAmounts have the same length
+  if (encodedItemIds.length !== amounts.length) {
+    throw new Error(
+      "Arrays encodedItemIds, amounts, and finalAmounts must have the same length"
+    );
+  }
+
+  const msg = ethers.utils.defaultAbiCoder.encode(
+    [
+      "address",
+      "uint256",
+      "uint256[]",
+      "address",
+      "uint256[]",
+      "uint8",
+      "uint256[]",
+    ],
+    [
+      messageSender,
+      userNonce,
+      encodedItemIds,
+      tokenAddress,
+      amounts,
+      operationType,
+      finalAmounts,
+    ]
+  );
+  const msgHash = ethers.utils.keccak256(msg);
+  let messageHashBytes = ethers.utils.arrayify(msgHash);
+  const signedMsg = await owner.signMessage(messageHashBytes);
+  const sig = ethers.utils.splitSignature(signedMsg);
+  const sd = {
+    v: sig.v,
+    r: sig.r,
+    s: sig.s,
+  };
+  return sd;
+}
