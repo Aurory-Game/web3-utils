@@ -22,6 +22,10 @@ export function writeJson(args: WriteJsonArgs): void {
   fs.writeFileSync(finalPath, JSON.stringify(args.data, null, 2));
 }
 
+export function write(path: string, data: any): void {
+  fs.writeFileSync(path, data);
+}
+
 export function loadJson(path: string): any {
   return JSON.parse(fs.readFileSync(path).toString());
 }

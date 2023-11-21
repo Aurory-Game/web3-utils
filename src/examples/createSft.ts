@@ -7,6 +7,7 @@ import { PublicKey } from "@solana/web3.js";
 import { MultiWalletProvider } from "../modules/wallet";
 import { MultiConnectionProvider } from "../modules/connection";
 import { loadJsonFromUri } from "../utils/network";
+import { nftModels } from "../utils/nftModels";
 
 async function run() {
   try {
@@ -19,13 +20,14 @@ async function run() {
     const metaplex = new Metaplex(connection);
     metaplex.use(keypairIdentity(updateAuthority));
 
-    const name = "Quantum Egg";
+    const name = "1kin Booster Pack 9";
     const keyBase = encodeURIComponent(
       name.toLowerCase().trim().replace(/\s/g, "-"),
     );
-    const uri = `https://assets.cdn.aurory.io/eggs/${keyBase}/metadata.json`;
-
+    const cm = nftModels.pack1Kin;
+    const uri = `https://assets.cdn.aurory.io/${cm.uploadCategory}/${keyBase}/metadata.json`;
     const nftMetadata: any = await loadJsonFromUri(uri);
+    console.log(nftMetadata);
     const r = await metaplex
       .nfts()
       .createSft({
@@ -52,7 +54,8 @@ async function run() {
         isMutable: true,
       })
       .run();
-    console.log(r, r.nft.address.toBase58());
+    console.log(r);
+    console.log(`https://solscan.io/token/${r.mintAddress.toBase58()}`);
   } catch (e) {
     console.error(e);
   }
