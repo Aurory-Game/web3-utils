@@ -4,12 +4,12 @@ import {
   Metaplex,
 } from "@metaplex-foundation/js";
 import { PublicKey } from "@solana/web3.js";
-import { MultiWalletProvider } from "../modules/wallet";
-import { MultiConnectionProvider } from "../modules/connection";
-import { loadJsonFromUri } from "../utils/network";
-import { nftModels } from "../utils/nftModels";
+import { MultiWalletProvider } from "../../modules/wallet";
+import { MultiConnectionProvider } from "../../modules/connection";
+import { loadJsonFromUri } from "../../utils/network";
+import { NftModel, nftModels } from "../../utils/nftModels";
 
-async function run() {
+export async function createSft(name: string, cm: NftModel) {
   try {
     const mwp = new MultiWalletProvider();
     const mcp = new MultiConnectionProvider();
@@ -20,11 +20,9 @@ async function run() {
     const metaplex = new Metaplex(connection);
     metaplex.use(keypairIdentity(updateAuthority));
 
-    const name = "1kin Booster Pack 9";
     const keyBase = encodeURIComponent(
       name.toLowerCase().trim().replace(/\s/g, "-"),
     );
-    const cm = nftModels.pack1Kin;
     const uri = `https://assets.cdn.aurory.io/${cm.uploadCategory}/${keyBase}/metadata.json`;
     const nftMetadata: any = await loadJsonFromUri(uri);
     console.log(nftMetadata);
@@ -60,5 +58,3 @@ async function run() {
     console.error(e);
   }
 }
-
-run();
