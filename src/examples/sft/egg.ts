@@ -4,7 +4,7 @@ import { createSft } from "./createSft";
 async function run() {
   try {
     // ### EDIT START ###
-    const name = "Rise of Dracurve";
+    const name = "Draconic Egg";
     const cm = nftModels.egg;
     // ### EDIT END ###
 

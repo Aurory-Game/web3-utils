@@ -7,9 +7,9 @@ import { PublicKey } from "@solana/web3.js";
 import { MultiWalletProvider } from "../../modules/wallet";
 import { MultiConnectionProvider } from "../../modules/connection";
 import { loadJsonFromUri } from "../../utils/network";
-import { NftModel, nftModels } from "../../utils/nftModels";
+import { NftModel } from "../../utils/nftModels";
 
-export async function createSft(name: string, cm: NftModel) {
+export async function createSft(name: string, cm: NftModel<any>) {
   try {
     const mwp = new MultiWalletProvider();
     const mcp = new MultiConnectionProvider();
@@ -24,6 +24,7 @@ export async function createSft(name: string, cm: NftModel) {
       name.toLowerCase().trim().replace(/\s/g, "-"),
     );
     const uri = `https://assets.cdn.aurory.io/${cm.uploadCategory}/${keyBase}/metadata.json`;
+    console.log(uri);
     const nftMetadata: any = await loadJsonFromUri(uri);
     console.log(nftMetadata);
     const r = await metaplex

@@ -14,20 +14,22 @@ async function run() {
     const mwp = new MultiWalletProvider();
     const mcp = new MultiConnectionProvider();
     const connection = mcp.get("aurory-prod");
-    const payer = mwp.get("2j85gueUvAFeFEdKZE5yKAvyAsU8fKKZvxX8zLbX8GCc");
+    const payer = mwp.get("NFTsPae8pUuvKHiUHpXfZaQwwbiVPw6dPCWpwfvrwR6");
     const umi = createUmi(connection);
     const payerKp = umi.eddsa.createKeypairFromSecretKey(payer.secretKey);
     umi.use(keypairIdentity(payerKp));
     umi.use(keypairPayer(payerKp));
     const merkleTree = generateSigner(umi);
+    const maxDepth = 17;
+    const maxBufferSize = 64;
     const builder = await createTree(umi, {
       merkleTree,
-      maxDepth: 3,
-      maxBufferSize: 8,
+      maxDepth,
+      maxBufferSize,
     });
     await builder.sendAndConfirm(umi);
     fs.writeFileSync(
-      `${__dirname}/../../../snapshots/merkleTree_${merkleTree.publicKey.toString()}.txt`,
+      `${__dirname}/../../../snapshots/merkleTree_${merkleTree.publicKey.toString()}_${payer.publicKey.toBase58()}_md${maxDepth}_mbs${maxBufferSize}.txt`,
       merkleTree.publicKey.toString(),
     );
     console.log(merkleTree.publicKey.toString());

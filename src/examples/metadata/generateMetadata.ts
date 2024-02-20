@@ -1,20 +1,21 @@
 import { MultiWalletProvider } from "../../modules/wallet";
 import * as fs from "fs";
 import { write } from "../../utils/file";
-import { nftModels as models } from "../../utils/nftModels";
-async function run() {
+import { NftModel } from "../../utils/nftModels";
+
+export async function generateMetadata(
+  cm: NftModel<any>,
+  name: string,
+  description: string,
+  attributes: any,
+) {
   try {
-    const cm = models.pack1Kin;
-    const name = "1kin Booster Pack 9";
-    const description =
-      "This Booster Pack was created in partnership with 1KIN. This special pack contains: 1,500 Crystals, 1 Prairie Egg, 1 Everglade Egg";
     const symbol = cm.symbol;
     const collectionName = "Aurory";
-    const attributes = cm.attributes();
-
     const keyBase = encodeURIComponent(
       name.toLowerCase().trim().replace(/\s/g, "-"),
     );
+    console.log(keyBase);
 
     const imageExtension = "png";
     const imageUrl = `https://images.cdn.aurory.io/${cm.uploadCategory}/${keyBase}/full.${imageExtension}`;
@@ -65,5 +66,3 @@ async function run() {
     console.error(e);
   }
 }
-
-run();
