@@ -15,44 +15,41 @@ export async function createSft(name: string, cm: NftModel<any>) {
     const mcp = new MultiConnectionProvider();
     const connection = mcp.get("aurory-prod");
     const updateAuthority = mwp.get(
-      "NFTsPae8pUuvKHiUHpXfZaQwwbiVPw6dPCWpwfvrwR6",
+      "NFTsPae8pUuvKHiUHpXfZaQwwbiVPw6dPCWpwfvrwR6"
     );
     const metaplex = new Metaplex(connection);
     metaplex.use(keypairIdentity(updateAuthority));
 
     const keyBase = encodeURIComponent(
-      name.toLowerCase().trim().replace(/\s/g, "-"),
+      name.toLowerCase().trim().replace(/\s/g, "-")
     );
     const uri = `https://assets.cdn.aurory.io/${cm.uploadCategory}/${keyBase}/metadata.json`;
-    console.log(uri);
+    // console.log(uri);
     const nftMetadata: any = await loadJsonFromUri(uri);
-    console.log(nftMetadata);
-    const r = await metaplex
-      .nfts()
-      .createSft({
-        isCollection: false,
-        name: nftMetadata.name,
-        uri,
-        symbol: nftMetadata.symbol,
-        sellerFeeBasisPoints: nftMetadata.seller_fee_basis_points,
-        updateAuthority: updateAuthority,
-        mintAuthority: updateAuthority,
-        tokenOwner: updateAuthority.publicKey,
-        creators: nftMetadata.properties.creators.map(
-          ({ address, share }: { address: string; share: number }) => {
-            const isAuthority =
-              address === updateAuthority.publicKey.toBase58();
-            const creator: CreatorInput = {
-              address: new PublicKey(address),
-              share,
-              authority: isAuthority ? updateAuthority : undefined,
-            };
-            return creator;
-          },
-        ),
-        isMutable: true,
-      })
-      .run();
+    // console.log(nftMetadata);
+    const r = await metaplex.nfts().createSft({
+      isCollection: false,
+      name: nftMetadata.name,
+      uri,
+      symbol: nftMetadata.symbol,
+      sellerFeeBasisPoints: nftMetadata.seller_fee_basis_points,
+      updateAuthority: updateAuthority,
+      mintAuthority: updateAuthority,
+      tokenOwner: updateAuthority.publicKey,
+      creators: nftMetadata.properties.creators.map(
+        ({ address, share }: { address: string; share: number }) => {
+          const isAuthority = address === updateAuthority.publicKey.toBase58();
+          const creator: CreatorInput = {
+            address: new PublicKey(address),
+            share,
+            authority: isAuthority ? updateAuthority : undefined,
+          };
+          return creator;
+        }
+      ),
+      isMutable: true,
+    });
+    // .run();
     console.log(r);
     console.log(`https://solscan.io/token/${r.mintAddress.toBase58()}`);
   } catch (e) {

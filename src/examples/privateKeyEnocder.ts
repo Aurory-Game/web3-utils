@@ -4,14 +4,17 @@ import { loadWallet } from "../utils/wallet";
 
 function run() {
   console.log("Solana");
-  const wallet = loadWallet(process.env.WALLET!);
+  // const wallet = loadWallet(
+  //   process.env.WALLET_AASpkbE32Jaq8LqUUyVspY2uo1ixxuBJSmZmfKLqHoha!
+  // );
+  const wallet = Keypair.generate();
   const b64 = Buffer.from(wallet.secretKey).toString("base64");
   const decoded = Keypair.fromSecretKey(
-    new Uint8Array(Buffer.from(b64, "base64")),
+    new Uint8Array(Buffer.from(b64, "base64"))
   );
   console.log(
     wallet.publicKey.toBase58(),
-    wallet.publicKey.toBase58() === decoded.publicKey.toBase58(),
+    wallet.publicKey.toBase58() === decoded.publicKey.toBase58()
   );
   console.log("Encoded pk:", Buffer.from(wallet.secretKey).toString("base64"));
 }
